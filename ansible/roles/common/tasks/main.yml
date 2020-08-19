@@ -99,3 +99,17 @@
     regexp: '^(#|)PermitRootLogin'
     line: 'PermitRootLogin yes'
   notify: restart ssh
+
+# Profiles & motd
+- name: 'add profile common'
+  copy:
+    dest: /etc/profile.d/common.sh
+    mode: 0755
+    src: ../files/etc/profile.d/common.sh
+
+- name: 'add motd'
+  copy:
+    dest: /etc/motd
+    mode: 0644
+    src: ../files/etc/motd
+
