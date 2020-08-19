@@ -1,0 +1,26 @@
+---
+- name: "pwndbg : install gdb"
+  apt:
+    name: gdb
+    state: present
+
+- name: "pwndbg : clone pwndbg"
+  git:
+    accept_hostkey: yes
+    clone: yes
+    depth: 1
+    dest: /opt/tools/pwndbg
+    force: yes
+    repo: https://github.com/pwndbg/pwndbg.git
+
+- name: 'pwndbg: play setup'
+  shell:
+    cmd: ./setup.sh
+    chdir: /opt/tools/pwndbg
+
+- name: 'pwndbg : install profile'
+  copy:
+    dest: /etc/profile.d/pwndbg.sh
+    mode: 0755
+    src: ../files/etc/profile.d/pwndbg.sh
+

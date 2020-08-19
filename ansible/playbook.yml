@@ -1,0 +1,7 @@
+---
+- hosts: all
+  # use sudo as vagrant play command with user vagrant
+  become: yes
+  roles:
+    - common
+    - pwn

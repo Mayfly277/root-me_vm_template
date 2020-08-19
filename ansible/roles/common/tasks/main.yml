@@ -1,0 +1,101 @@
+---
+######################################
+# Update APT
+######################################
+- name: update apt cache
+  apt: update_cache=yes
+
+######################################
+# Tools
+######################################
+- name: Install usefull system tools
+  apt: name={{ item }} state=present
+  with_items:
+    - vim
+    - htop
+    - git
+    - mailutils
+    - python
+    - python-pip
+    - net-tools
+    - strace
+    - ltrace
+    - pv
+    - openssl
+    - tmux
+    - curl
+    - tar
+    - gcc
+    - nano
+    - make
+    - gdb
+    - software-properties-common
+    - bash-completion
+    - python3
+    - python3-pip
+    - python3-dev
+    - libglib2.0-dev
+    - libc6-dbg
+    - python2.7
+    - python-pip
+
+######################################
+# User & Group Management
+# TODO : delete vagrant user for chall release
+######################################
+- group:
+    name: users
+    state: present
+
+- name: Update root password
+  user: name=root
+        password={{ item.password }}
+  with_items: '{{root}}'
+
+- name: Create users
+  user: name={{ item.username }}
+        comment="{{ item.username }} user"
+        shell=/bin/bash
+        password={{ item.password }}
+        groups={{ item.groups }}
+  with_items: '{{users}}'
+
+  #    - name: Add users to sudoers
+  #template: src=src/etc/sudoers.d/{{ item.username }}
+  #          dest=/etc/sudoers.d/{{ item.username }}-sudoer
+  #          validate='visudo -cf %s'
+  #with_items: '{{users}}'
+
+######################################
+# Time management
+######################################
+- name: Set local timezone
+  copy: content={{ timezone }}
+        dest=/etc/timezone
+
+- name: Reconfigure tzdata
+  command: dpkg-reconfigure -f noninteractive tzdata
+
+- name: Install NTP (and update apt cache for the first install)
+  apt: name=ntp state=present
+       update_cache=yes
+
+- name: Start the ntp service
+  service: name=ntp state=started enabled=true
+
+######################################
+# SSH Configuration
+######################################
+- name: ssh configuration allow password authentication
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^(#|)PasswordAuthentication'
+    line: 'PasswordAuthentication yes'
+  notify: restart ssh
+
+- name: ssh configuration permit root login
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^(#|)PermitRootLogin'
+    line: 'PermitRootLogin yes'
+  notify: restart ssh

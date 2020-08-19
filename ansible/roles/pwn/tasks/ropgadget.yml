@@ -1,0 +1,7 @@
+---
+- name: "install rop gadget"
+  pip:
+    name:
+     - capstone
+     - ropgadget
+

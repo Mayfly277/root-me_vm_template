@@ -1,0 +1,17 @@
+---
+- name: "checksec : clone checksec"
+  git:
+    accept_hostkey: yes
+    clone: yes
+    depth: 1
+    dest: /opt/tools/checksec.sh
+    force: yes
+    repo: https://github.com/slimm609/checksec.sh
+
+- name: 'checksec : symlink to /usr/bin'
+  file:
+    src: /opt/tools/checksec.sh/checksec
+    dest: /usr/bin/checksec
+    owner: root
+    group: root
+    state: link

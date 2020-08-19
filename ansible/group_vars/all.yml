@@ -1,0 +1,11 @@
+---
+timezone: 'Europe/Paris'
+# TODO : change all pass with your own
+root:
+  # from passlib.hash import sha512_crypt; print sha512_crypt.using(rounds=5000).hash("changeme")
+  - password: $6$L9Wu4CRKVgLAYetr$MhwbK28GC7AzDs/DFsukTRyfxP3ZiE6eyDR.7qh.A5DxEsm36z9GE.7P/Q21/qP6xeT7xBuDGbdaPvABPwRTC/
+users:
+  # from passlib.hash import sha512_crypt; print sha512_crypt.using(rounds=5000).hash("changeme")
+  - username: challenge
+    password: $6$L9Wu4CRKVgLAYetr$MhwbK28GC7AzDs/DFsukTRyfxP3ZiE6eyDR.7qh.A5DxEsm36z9GE.7P/Q21/qP6xeT7xBuDGbdaPvABPwRTC/
+    groups: users

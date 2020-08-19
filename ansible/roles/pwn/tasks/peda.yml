@@ -1,0 +1,22 @@
+---
+- block:
+
+  - name: "peda : install gdb"
+    apt:
+      name: gdb
+      state: present
+
+  - name: "peda : clone peda"
+    git:
+      accept_hostkey: yes
+      clone: yes
+      depth: 1
+      dest: /opt/tools/peda
+      force: yes
+      repo: https://github.com/longld/peda.git
+
+  - name: 'peda : install profile'
+    copy:
+      dest: /etc/profile.d/peda.sh
+      mode: 0755
+      src: ../files/etc/profile.d/peda.sh

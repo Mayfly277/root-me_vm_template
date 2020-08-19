@@ -1,0 +1,27 @@
+---
+######################################
+# PWN tools
+######################################
+- name: create /opt/tools folder
+  file:
+    path: /opt/tools
+    state: directory
+    owner: root
+    group: users
+    mode: '0775'
+
+- name: rop gaget
+  include: ropgadget.yml
+
+- name: peda install
+  include: peda.yml
+
+- name: gef install
+  include: gef.yml
+
+- name: checksec install
+  include: checksec.yml
+
+- name: pwndbg install
+  include: pwndbg.yml
+

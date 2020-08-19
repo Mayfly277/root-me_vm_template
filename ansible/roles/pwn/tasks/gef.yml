@@ -1,0 +1,20 @@
+---
+- name: "gef : install gdb"
+  apt:
+    name: gdb
+    state: present
+
+- name: "gef : clone gef"
+  git:
+    accept_hostkey: yes
+    clone: yes
+    depth: 1
+    dest: /opt/tools/gef
+    force: yes
+    repo: https://github.com/hugsy/gef.git
+
+- name: 'gef : install profile'
+  copy:
+    dest: /etc/profile.d/gef.sh
+    mode: 0755
+    src: ../files/etc/profile.d/gef.sh
